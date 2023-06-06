@@ -26,13 +26,10 @@ jobs:
         run: dotnet test --configuration Release --no-restore --verbosity normal
 
       - name: Install Roslynator CLI
-        run: dotnet tool install --global dotnet-roslynator --version 3.5.0 --source https://api.nuget.org/v3/index.json
-
+        run: dotnet tool install --global dotnet-roslynator --version 3.5.0
 
       - name: Static Code Analysis
-        run: |
-          dotnet tool install --global dotnet-roslynator --version 3.5.0
-          dotnet roslynator analyze --solution-path WhereToBingeFinal.sln --severity-minor --severity-moderate --severity-warning
+        run: dotnet roslynator analyze --solution-path WhereToBingeFinal.sln --severity-minor --severity-moderate --severity-warning
 
       - name: Publish to Azure Web App
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
@@ -54,7 +51,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
         with:
-          name: .net-app
+          name: dotnet-app
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
