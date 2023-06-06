@@ -32,10 +32,7 @@ jobs:
         run: |
           dotnet restore
           dotnet build --configuration Release
-          projects=$(find . -name '*.csproj' -type f)
-          for project in $projects; do
-            dotnet roslynator analyze --project "$project"
-          done
+          find . -name '*.csproj' -type f -print0 | xargs -0 -I {} dotnet roslynator analyze --project {}
 
       #- name: Static Code Analysis
       #  run: roslynator analyze --solution-path WhereToBingeFinal.sln (--severity-minor --severity-moderate --severity-warning)
