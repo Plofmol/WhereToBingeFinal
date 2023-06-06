@@ -25,13 +25,21 @@ jobs:
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
-      - name: dotnet publish
+      - name: Run Tests
+        run: dotnet test --configuration Release --no-restore --verbosity normal
+
+      - name: Static Code Analysis
+        run: |
+          dotnet tool install --global dotnet-roslynator
+          dotnet roslynator analyze --path .
+
+      - name: Publish to Azure Web App
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
-          name: .net-app
+          name: dotnet-app
           path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
