@@ -27,7 +27,7 @@ jobs:
 
       - name: Static Code Analysis
         run: |
-          dotnet tool install --global dotnet-roslynator --version 4.3.0
+          dotnet tool install -g roslynator.dotnet.cli
           dotnet roslynator analyze --path .
 
       - name: Publish to Azure Web App
